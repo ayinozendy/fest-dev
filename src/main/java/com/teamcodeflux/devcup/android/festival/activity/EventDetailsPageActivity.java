@@ -2,10 +2,7 @@ package com.teamcodeflux.devcup.android.festival.activity;
 
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.Extra;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Event;
 
@@ -49,5 +46,10 @@ public class EventDetailsPageActivity extends SherlockActivity {
         organizerView.setText(event.getOrganizer());
         longitudeView.setText(event.getLongitude().toString());
         latitudeView.setText(event.getLatitude().toString());
+    }
+
+    @Click(R.id.view_comments)
+    void viewComments() {
+        EventCommentsActivity_.intent(this).start();
     }
 }
