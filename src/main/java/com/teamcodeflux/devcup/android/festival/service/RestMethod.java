@@ -3,6 +3,7 @@ package com.teamcodeflux.devcup.android.festival.service;
 import android.util.Log;
 import com.teamcodeflux.devcup.android.festival.model.Event;
 import com.teamcodeflux.devcup.android.festival.model.Post;
+import com.teamcodeflux.devcup.android.festival.model.ResultSet;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -38,8 +39,8 @@ public class RestMethod {
     private static RestTemplate formRestTemplate;
 
     public static List<Event> getEvents() {
-        Event[] events = RestMethod.getRestTemplate().getForObject(EVENTS, Event[].class);
-        return new ArrayList<Event>(asList(events));
+        List<Event> events = RestMethod.getRestTemplate().getForObject(EVENTS, ResultSet.class).getEvents();
+        return events;
     }
 
     public static Event getEvent(int id) {
@@ -48,13 +49,13 @@ public class RestMethod {
     }
 
     public static List<Post> getPostsForEvent(Event event) {
-        Post[] posts = RestMethod.getRestTemplate().getForObject(MessageFormat.format(COMMENTS_FOR_EVENT, event.getId()), Post[].class);
-        return new ArrayList<Post>(asList(posts));
+        List<Post> posts = RestMethod.getRestTemplate().getForObject(MessageFormat.format(COMMENTS_FOR_EVENT, event.getId()), ResultSet.class).getPosts();
+        return posts;
     }
 
     public static List<Post> getPosts() {
-        Post[] posts = RestMethod.getRestTemplate().getForObject(COMMENTS, Post[].class);
-        return new ArrayList<Post>(asList(posts));
+        List<Post> posts = RestMethod.getRestTemplate().getForObject(COMMENTS, ResultSet.class).getPosts();
+        return posts;
     }
 
     public static URI postComment(Post post) {
