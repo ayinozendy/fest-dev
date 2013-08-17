@@ -1,5 +1,6 @@
 package com.teamcodeflux.devcup.android.festival.service;
 
+import com.teamcodeflux.devcup.android.festival.model.Event;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -10,6 +11,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 public class RestMethod {
 
     private static final String SERVER = "http://127.0.0.1:3000";
@@ -18,6 +21,11 @@ public class RestMethod {
 
     private static RestTemplate restTemplate;
     private static RestTemplate formRestTemplate;
+
+    public static List<Event> getEvents() {
+        Event[] events = RestMethod.getRestTemplate().getForObject(EVENTS, Event[].class);
+        return new ArrayList<Event>(asList(events));
+    }
 
     //Rest Template
     private static RestTemplate getRestTemplate() {
