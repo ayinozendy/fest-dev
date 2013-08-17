@@ -10,6 +10,9 @@ public class FrontPageFragment extends SherlockFragment {
     @ViewById(R.id.list_view)
     ListView listView;
 
+    private List<Post> loadPostMockData() {
+        return null;
+    }
 
     private class PostListAdapter extends BaseAdapter {
 
