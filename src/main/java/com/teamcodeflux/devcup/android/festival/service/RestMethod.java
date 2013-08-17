@@ -64,11 +64,11 @@ public class RestMethod {
         return posts;
     }
 
-    public static URI postComment(Post post, Event event) {
-        return postComment(post, event, null);
+    public static URI postComment(Post post) {
+        return postComment(post, null);
     }
 
-    public static URI postComment(Post post, Event event, String imageFilePath) {
+    public static URI postComment(Post post, String imageFilePath) {
         MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
         parts.add("post[username]", post.getUsername());
         parts.add("post[body]", post.getPostBody());
@@ -84,7 +84,7 @@ public class RestMethod {
         URI result = null;
 
         try {
-            result = RestMethod.getFormRestTemplate().postForLocation(MessageFormat.format(POST_COMMENT, event.getId()), requestEntity);
+            result = RestMethod.getFormRestTemplate().postForLocation(MessageFormat.format(POST_COMMENT, post.getEventId()), requestEntity);
         } catch (Exception e) {
             Log.e(TAG, "Error posting to server", e);
         }
