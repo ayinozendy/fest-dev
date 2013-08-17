@@ -12,6 +12,9 @@ import java.util.List;
 
 public class RestMethod {
 
+    private static final String SERVER = "http://127.0.0.1:3000";
+    private static final String API_ROOT = SERVER + "/api";
+
     private static RestTemplate restTemplate;
     private static RestTemplate formRestTemplate;
 
