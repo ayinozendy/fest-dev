@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class Event implements Parcelable {
     public static final String EVENT_TAG = "event_item_key";
 
+    private int id;
     private String title;
     private String description;
     private String address;
@@ -77,6 +78,14 @@ public class Event implements Parcelable {
         organizer = source.readString();
         longitude = source.readDouble();
         latitude = source.readDouble();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
