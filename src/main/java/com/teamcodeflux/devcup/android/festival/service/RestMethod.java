@@ -16,12 +16,14 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 public class RestMethod {
+    private static final String TAG = RestMethod.class.getSimpleName();
 
     private static final String SERVER = "http://127.0.0.1:3000";
     private static final String API_ROOT = SERVER + "/api";
     private static final String EVENTS = API_ROOT + "/festival/1/events"; //Use Festival 1 as dedicated Festival
     private static final String COMMENTS_FOR_EVENT = API_ROOT + "/events/{0}/comments";
     private static final String POSTS = API_ROOT + "/festival/1/comments";
+    private static final String POST_COMMENT = API_ROOT + "/festival/1/comments";
 
     private static RestTemplate restTemplate;
     private static RestTemplate formRestTemplate;
@@ -39,6 +41,27 @@ public class RestMethod {
     public static List<Post> getPosts() {
         Post[] posts = RestMethod.getRestTemplate().getForObject(POSTS, Post[].class);
         return new ArrayList<Post>(asList(posts));
+    }
+
+    public static URI postComment(Post post) {
+        MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
+        parts.add("post[username]", post.getName());
+        parts.add("post[body]", post.getPostBody());
+        //parts.add("post[image]", post.getImage());
+
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+        HttpEntity<?> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(parts, requestHeaders);
+
+        URI result = null;
+
+        try {
+            result = RestMethod.getRestTemplate().postForLocation(POST_COMMENT, requestEntity);
+        } catch (Exception e) {
+            Log.e(TAG, "Error posting to server", e);
+        }
+
+        return result;
     }
 
     //Rest Template
