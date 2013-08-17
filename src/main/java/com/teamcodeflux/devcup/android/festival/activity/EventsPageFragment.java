@@ -48,7 +48,7 @@ public class EventsPageFragment extends SherlockFragment {
 
     @ItemClick(R.id.list_view)
     void list(int position) {
-        EventDetailsPageActivity_.intent(getActivity()).start();
+        EventDetailsPageActivity_.intent(getActivity()).event((Event) listView.getAdapter().getItem(position)).start();
     }
 
     private class EventListAdapter extends BaseAdapter {
