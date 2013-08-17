@@ -71,7 +71,7 @@ public class RestMethod {
         URI result = null;
 
         try {
-            result = RestMethod.getRestTemplate().postForLocation(POST_COMMENT, requestEntity);
+            result = RestMethod.getFormRestTemplate().postForLocation(POST_COMMENT, requestEntity);
         } catch (Exception e) {
             Log.e(TAG, "Error posting to server", e);
         }
@@ -99,10 +99,6 @@ public class RestMethod {
         messageConverters.add(new MappingJacksonHttpMessageConverter());
         messageConverters.add(new StringHttpMessageConverter());
 
-        messageConverters.add(new ByteArrayHttpMessageConverter());
-
-        messageConverters.add(new FormHttpMessageConverter());
-
         return messageConverters;
     }
 
@@ -123,8 +119,11 @@ public class RestMethod {
 
     private static List<HttpMessageConverter<?>> formConverters() {
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();
-        messageConverters.add(new FormHttpMessageConverter());
         messageConverters.addAll(messageConverters());
+
+        messageConverters.add(new ByteArrayHttpMessageConverter());
+        messageConverters.add(new FormHttpMessageConverter());
+
         return messageConverters;
     }
 }
