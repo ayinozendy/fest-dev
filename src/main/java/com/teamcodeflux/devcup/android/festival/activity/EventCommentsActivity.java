@@ -8,11 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
 import com.teamcodeflux.devcup.android.festival.R;
+import com.teamcodeflux.devcup.android.festival.model.Event;
 import com.teamcodeflux.devcup.android.festival.model.Post;
+import com.teamcodeflux.devcup.android.festival.service.RestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +20,41 @@ import java.util.List;
 @EActivity(R.layout.event_comments_layout)
 public class EventCommentsActivity extends SherlockActivity {
 
+    @Extra
+    Event event;
+
     @ViewById(R.id.list_view)
     ListView listView;
 
+    CommentsListAdapter adapter;
+
     @AfterViews
     void afterViews() {
-        listView.setAdapter(new CommentsListAdapter(this, loadMockPosts()));
+        adapter = new CommentsListAdapter(this);
+        listView.setAdapter(adapter);
+        reloadAdapter();
+    }
+
+    @Background
+    void reloadAdapter() {
+        adapter.setItems(loadAllPosts());
+        refreshList();
+    }
+
+    @UiThread
+    void refreshList() {
+        adapter.notifyDataSetChanged();
+    }
+
+    private List<Post> loadAllPosts() {
+        return RestMethod.getPostsForEvent(event);
     }
 
     private List<Post> loadMockPosts() {
         List<Post> posts = new ArrayList<Post>();
 
         for (int i = 0; i < 10; i++) {
-            posts.add(Post.buildPost("Comment Name" + i, "Comment Body" + 1));
+            posts.add(Post.buildPost(i, "Comment Name" + i, "image url", "Comment Body" + 1, 1));
         }
 
         return posts;
@@ -44,13 +66,15 @@ public class EventCommentsActivity extends SherlockActivity {
 
         private List<Post> listOfPosts;
 
-        public CommentsListAdapter(Context context, List<Post> posts) {
+        public CommentsListAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);
-            listOfPosts = posts;
         }
 
         @Override
         public int getCount() {
+            if (listOfPosts == null) {
+                return 0;
+            }
             return listOfPosts.size();
         }
 
@@ -69,12 +93,16 @@ public class EventCommentsActivity extends SherlockActivity {
             View view = this.layoutInflater.inflate(R.layout.event_comments_item_layout, parent, false);
 
             TextView nameField = (TextView) view.findViewById(R.id.name);
-            nameField.setText(listOfPosts.get(position).getName());
+            nameField.setText(listOfPosts.get(position).getUsername());
 
             TextView postBodyField = (TextView) view.findViewById(R.id.post_body);
             postBodyField.setText(listOfPosts.get(position).getPostBody());
 
             return view;
+        }
+
+        public void setItems(List<Post> posts) {
+            listOfPosts = posts;
         }
     }
 }

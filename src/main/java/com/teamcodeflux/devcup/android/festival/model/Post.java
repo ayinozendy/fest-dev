@@ -2,21 +2,54 @@ package com.teamcodeflux.devcup.android.festival.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Post implements Parcelable {
     public static final String POST_TAG = "post_item_key";
 
-    private String name;
+    private int id;
+    private String username;
+
+    @JsonProperty("image_url")
+    private String imageUrl;
+
+    @JsonProperty("body")
     private String postBody;
+
+    @JsonProperty("event_id")
+    private int eventId;
 
     private Post() {
 
     }
 
-    public static Post buildPost(String name, String postBody) {
+    public static final Parcelable.Creator<Post> CREATOR
+            = new Parcelable.Creator<Post>() {
+
+        @Override
+        public Post createFromParcel(Parcel source) {
+            return new Post(source);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
+
+    public Post(final Parcel source) {
+        readFromParcel(source);
+    }
+
+    public static Post buildPost(int id, String name, String imageUrl, String postBody, int eventId) {
         Post post = new Post();
-        post.setName(name);
+        post.setId(id);
+        post.setUsername(name);
+        post.setImageUrl(imageUrl);
         post.setPostBody(postBody);
+        post.setEventId(eventId);
 
         return post;
     }
@@ -28,21 +61,43 @@ public class Post implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
+        dest.writeInt(id);
+        dest.writeString(username);
+        dest.writeString(imageUrl);
         dest.writeString(postBody);
+        dest.writeInt(eventId);
     }
 
     private void readFromParcel(final Parcel source) {
-        name = source.readString();
+        id = source.readInt();
+        username = source.readString();
+        imageUrl = source.readString();
         postBody = source.readString();
+        eventId = source.readInt();
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getPostBody() {
@@ -51,5 +106,13 @@ public class Post implements Parcelable {
 
     public void setPostBody(String postBody) {
         this.postBody = postBody;
+    }
+
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 }

@@ -10,14 +10,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.EFragment;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Post;
+import com.teamcodeflux.devcup.android.festival.service.RestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,8 @@ public class FrontPageFragment extends SherlockFragment {
 
     private DisplayImageOptions options;
 
+    private PostListAdapter adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,14 +49,31 @@ public class FrontPageFragment extends SherlockFragment {
 
     @AfterViews
     void afterViews() {
-        listView.setAdapter(new PostListAdapter(getActivity(), loadPostMockData()));
+        adapter = new PostListAdapter(getActivity());
+        listView.setAdapter(adapter);
+        reloadAdapter();
+    }
+
+    @Background
+    void reloadAdapter() {
+        adapter.setItems(loadAllPosts());
+        refreshList();
+    }
+
+    @UiThread
+    void refreshList() {
+        adapter.notifyDataSetChanged();
+    }
+
+    private List<Post> loadAllPosts() {
+        return RestMethod.getPosts();
     }
 
     private List<Post> loadPostMockData() {
         List<Post> posts = new ArrayList<Post>();
 
         for (int i = 0; i < 10; i++) {
-            posts.add(Post.buildPost("Name " + i, i + " " + loremIpsum));
+            posts.add(Post.buildPost(i, "Name " + i, "image url", i + " " + loremIpsum, 1));
         }
 
         return posts;
@@ -67,13 +85,15 @@ public class FrontPageFragment extends SherlockFragment {
 
         private List<Post> listOfPosts;
 
-        public PostListAdapter(Context context, List<Post> posts) {
+        public PostListAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);
-            listOfPosts = posts;
         }
 
         @Override
         public int getCount() {
+            if (listOfPosts == null) {
+                return 0;
+            }
             return listOfPosts.size();
         }
 
@@ -92,7 +112,7 @@ public class FrontPageFragment extends SherlockFragment {
             View view = this.layoutInflater.inflate(R.layout.front_page_item_layout, parent, false);
 
             TextView nameField = (TextView) view.findViewById(R.id.name);
-            nameField.setText(listOfPosts.get(position).getName());
+            nameField.setText(listOfPosts.get(position).getUsername());
 
             TextView eventTitleField = (TextView) view.findViewById(R.id.event_title);
             eventTitleField.setText("The Quick Brown Fox Event");
@@ -105,6 +125,10 @@ public class FrontPageFragment extends SherlockFragment {
             postBodyField.setText(listOfPosts.get(position).getPostBody());
 
             return view;
+        }
+
+        public void setItems(List<Post> posts) {
+            listOfPosts = posts;
         }
     }
 }
