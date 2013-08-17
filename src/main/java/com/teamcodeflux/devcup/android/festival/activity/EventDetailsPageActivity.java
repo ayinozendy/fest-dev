@@ -12,23 +12,17 @@ public class EventDetailsPageActivity extends SherlockActivity {
     @Extra
     Event event;
 
+    @ViewById(R.id.image_url)
+    TextView imageUrlView;
+
     @ViewById(R.id.title)
     TextView titleView;
 
     @ViewById(R.id.description)
     TextView descriptionView;
 
-    @ViewById(R.id.address)
+    @ViewById(R.id.location)
     TextView addressView;
-
-    @ViewById(R.id.contact_no)
-    TextView contactNoView;
-
-    @ViewById(R.id.image_url)
-    TextView imageUrlView;
-
-    @ViewById(R.id.organizer)
-    TextView organizerView;
 
     @ViewById(R.id.longitude)
     TextView longitudeView;
@@ -39,11 +33,9 @@ public class EventDetailsPageActivity extends SherlockActivity {
     @AfterViews
     void afterViews() {
         titleView.setText(event.getTitle());
-        descriptionView.setText(event.getDescription());
-        addressView.setText(event.getAddress());
-        contactNoView.setText(event.getContactNo());
         imageUrlView.setText(event.getImageUrl());
-        organizerView.setText(event.getOrganizer());
+        descriptionView.setText(event.getDescription());
+        addressView.setText(event.getLocation());
         longitudeView.setText(event.getLongitude().toString());
         latitudeView.setText(event.getLatitude().toString());
     }
