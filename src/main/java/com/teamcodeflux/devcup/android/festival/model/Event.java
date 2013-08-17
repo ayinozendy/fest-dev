@@ -38,8 +38,9 @@ public class Event implements Parcelable {
         readFromParcel(source);
     }
 
-    public static Event buildEvent(String title, String description, String address, String contactNo, String imageUrl, String organizer, Double longitude, Double latitude) {
+    public static Event buildEvent(int id, String title, String description, String address, String contactNo, String imageUrl, String organizer, Double longitude, Double latitude) {
         Event event = new Event();
+        event.setId(id);
         event.setTitle(title);
         event.setDescription(description);
         event.setAddress(address);
@@ -59,6 +60,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(address);
@@ -70,6 +72,7 @@ public class Event implements Parcelable {
     }
 
     private void readFromParcel(final Parcel source) {
+        id = source.readInt();
         title = source.readString();
         description = source.readString();
         address = source.readString();
