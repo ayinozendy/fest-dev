@@ -73,13 +73,13 @@ public class EventsPageFragment extends SherlockFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = this.layoutInflater.inflate(R.layout.front_page_item_layout, parent, false);
+            View view = this.layoutInflater.inflate(R.layout.event_page_item_layout, parent, false);
 
-            TextView nameField = (TextView) view.findViewById(R.id.name);
-            nameField.setText(listOfEvents.get(position).getTitle());
+            TextView titleField = (TextView) view.findViewById(R.id.title);
+            titleField.setText(listOfEvents.get(position).getTitle());
 
-            TextView postBodyField = (TextView) view.findViewById(R.id.post_body);
-            postBodyField.setText(listOfEvents.get(position).getDescription());
+            TextView descriptionField = (TextView) view.findViewById(R.id.description);
+            descriptionField.setText(listOfEvents.get(position).getDescription());
 
             return view;
         }
