@@ -41,6 +41,8 @@ public class MainIndexActivity extends SherlockFragmentActivity {
             switch (position) {
                 case 0:
                     return new FrontPageFragment_();
+                case 1:
+                    return new EventsPageFragment_();
             }
             return null;
         }
