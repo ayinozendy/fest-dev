@@ -2,17 +2,24 @@ package com.teamcodeflux.devcup.android.festival.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Event implements Parcelable {
     public static final String EVENT_TAG = "event_item_key";
 
     private int id;
+
+    @JsonProperty("image_url")
+    private String imageUrl;
+
+    @JsonProperty("thumb")
+    private String thumbnail;
+
     private String title;
     private String description;
-    private String address;
-    private String contactNo;
-    private String imageUrl;
-    private String organizer;
+    private String location;
     private Double longitude;
     private Double latitude;
 
@@ -38,15 +45,14 @@ public class Event implements Parcelable {
         readFromParcel(source);
     }
 
-    public static Event buildEvent(int id, String title, String description, String address, String contactNo, String imageUrl, String organizer, Double longitude, Double latitude) {
+    public static Event buildEvent(int id, String imageUrl, String thumbnail, String title, String description, String location, Double longitude, Double latitude) {
         Event event = new Event();
         event.setId(id);
+        event.setImageUrl(imageUrl);
+        event.setThumbnail(thumbnail);
         event.setTitle(title);
         event.setDescription(description);
-        event.setAddress(address);
-        event.setContactNo(contactNo);
-        event.setImageUrl(imageUrl);
-        event.setOrganizer(organizer);
+        event.setLocation(location);
         event.setLongitude(longitude);
         event.setLatitude(latitude);
 
@@ -61,24 +67,22 @@ public class Event implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
+        dest.writeString(imageUrl);
+        dest.writeString(thumbnail);
         dest.writeString(title);
         dest.writeString(description);
-        dest.writeString(address);
-        dest.writeString(contactNo);
-        dest.writeString(imageUrl);
-        dest.writeString(organizer);
+        dest.writeString(location);
         dest.writeDouble(longitude);
         dest.writeDouble(latitude);
     }
 
     private void readFromParcel(final Parcel source) {
         id = source.readInt();
+        imageUrl = source.readString();
+        thumbnail = source.readString();
         title = source.readString();
         description = source.readString();
-        address = source.readString();
-        contactNo = source.readString();
-        imageUrl = source.readString();
-        organizer = source.readString();
+        location = source.readString();
         longitude = source.readDouble();
         latitude = source.readDouble();
     }
@@ -89,6 +93,22 @@ public class Event implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String getTitle() {
@@ -107,36 +127,12 @@ public class Event implements Parcelable {
         this.description = description;
     }
 
-    public String getAddress() {
-        return address;
+    public String getLocation() {
+        return location;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getContactNo() {
-        return contactNo;
-    }
-
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getOrganizer() {
-        return organizer;
-    }
-
-    public void setOrganizer(String organizer) {
-        this.organizer = organizer;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Double getLongitude() {
