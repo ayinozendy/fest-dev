@@ -1,14 +1,30 @@
 package com.teamcodeflux.devcup.android.festival.activity;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.teamcodeflux.devcup.android.festival.R;
+import com.teamcodeflux.devcup.android.festival.model.Post;
+
+import java.util.List;
 
 @EFragment(R.layout.front_page_layout)
 public class FrontPageFragment extends SherlockFragment {
 
     @ViewById(R.id.list_view)
     ListView listView;
+
+    @AfterViews
+    void afterViews() {
+        loadPostMockData();
+    }
 
     private List<Post> loadPostMockData() {
         return null;
