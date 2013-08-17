@@ -63,7 +63,7 @@ public class FrontPageFragment extends SherlockFragment {
             nameField.setText(listOfPosts.get(position).getName());
 
             TextView postBodyField = (TextView) view.findViewById(R.id.post_body);
-            postBodyField.setText(listOfPosts.get(position).getName());
+            postBodyField.setText(listOfPosts.get(position).getPostBody());
 
             return view;
         }
