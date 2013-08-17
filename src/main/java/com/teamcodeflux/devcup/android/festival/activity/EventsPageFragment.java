@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.ItemClick;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Event;
@@ -43,6 +44,11 @@ public class EventsPageFragment extends SherlockFragment {
         }
 
         return events;
+    }
+
+    @ItemClick(R.id.list_view)
+    void list(int position) {
+        EventDetailsPageActivity_.intent(getActivity()).event((Event) listView.getAdapter().getItem(position)).start();
     }
 
     private class EventListAdapter extends BaseAdapter {

@@ -19,6 +19,24 @@ public class Event implements Parcelable {
 
     }
 
+    public static final Parcelable.Creator<Event> CREATOR
+            = new Parcelable.Creator<Event>() {
+
+        @Override
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+
+    public Event(final Parcel source) {
+        readFromParcel(source);
+    }
+
     public static Event buildEvent(String title, String description, String address, String contactNo, String imageUrl, String organizer, Double longitude, Double latitude) {
         Event event = new Event();
         event.setTitle(title);
