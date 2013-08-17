@@ -22,18 +22,16 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Arrays.asList;
-
 public class RestMethod {
     private static final String TAG = RestMethod.class.getSimpleName();
 
     private static final String SERVER = "https://calm-wildwood-2164.herokuapp.com";
     private static final String API_ROOT = SERVER + "/api";
     private static final String EVENT = API_ROOT + "/events/{0}";
-    private static final String EVENTS = API_ROOT + "/festival/1/events"; //Use Festival 1 as dedicated Festival
+    private static final String EVENTS = API_ROOT + "/festivals/1/events"; //Use Festival 1 as dedicated Festival
     private static final String COMMENTS_FOR_EVENT = API_ROOT + "/events/{0}/comments";
-    private static final String COMMENTS = API_ROOT + "/festival/1/comments";
-    private static final String POST_COMMENT = API_ROOT + "/festival/1/comments";
+    private static final String COMMENTS = API_ROOT + "/festivals/1/comments";
+    private static final String POST_COMMENT = API_ROOT + "/festivals/1/comments";
 
     private static RestTemplate restTemplate;
     private static RestTemplate formRestTemplate;
@@ -54,7 +52,15 @@ public class RestMethod {
     }
 
     public static List<Post> getPosts() {
-        List<Post> posts = RestMethod.getRestTemplate().getForObject(COMMENTS, ResultSet.class).getPosts();
+        Log.e(TAG, "Location: " + COMMENTS);
+        List<Post> posts = new ArrayList<Post>();
+
+        try {
+            posts = RestMethod.getRestTemplate().getForObject(COMMENTS, ResultSet.class).getPosts();
+        } catch (Exception e) {
+            Log.e(TAG, "Failed", e);
+        }
+
         return posts;
     }
 
