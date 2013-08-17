@@ -16,6 +16,16 @@ import java.util.List;
 @EActivity(R.layout.event_comments_layout)
 public class EventCommentsActivity extends SherlockActivity {
 
+    private List<Post> loadMockPosts() {
+        List<Post> posts = new ArrayList<Post>();
+
+        for (int i = 0; i < 10; i++) {
+            posts.add(Post.buildPost("Comment Name" + i, "Comment Body" + 1));
+        }
+
+        return posts;
+    }
+
     private class CommentsListAdapter extends BaseAdapter {
 
         private LayoutInflater layoutInflater;
