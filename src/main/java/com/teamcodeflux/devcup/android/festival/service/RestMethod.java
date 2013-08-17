@@ -31,7 +31,7 @@ public class RestMethod {
     private static final String EVENTS = API_ROOT + "/festivals/1/events"; //Use Festival 1 as dedicated Festival
     private static final String COMMENTS_FOR_EVENT = API_ROOT + "/events/{0}/comments";
     private static final String COMMENTS = API_ROOT + "/festivals/1/comments";
-    private static final String POST_COMMENT = API_ROOT + "/festivals/1/comments";
+    private static final String POST_COMMENT = API_ROOT + "/events/{0}/comments";
 
     private static RestTemplate restTemplate;
     private static RestTemplate formRestTemplate;
@@ -64,11 +64,11 @@ public class RestMethod {
         return posts;
     }
 
-    public static URI postComment(Post post) {
-        return postComment(post, null);
+    public static URI postComment(Post post, Event event) {
+        return postComment(post, event, null);
     }
 
-    public static URI postComment(Post post, String imageFilePath) {
+    public static URI postComment(Post post, Event event, String imageFilePath) {
         MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
         parts.add("post[username]", post.getUsername());
         parts.add("post[body]", post.getPostBody());
@@ -84,7 +84,7 @@ public class RestMethod {
         URI result = null;
 
         try {
-            result = RestMethod.getFormRestTemplate().postForLocation(POST_COMMENT, requestEntity);
+            result = RestMethod.getFormRestTemplate().postForLocation(MessageFormat.format(POST_COMMENT, event.getId()), requestEntity);
         } catch (Exception e) {
             Log.e(TAG, "Error posting to server", e);
         }
