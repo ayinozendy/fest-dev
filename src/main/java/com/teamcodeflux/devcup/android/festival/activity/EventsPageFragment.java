@@ -17,7 +17,7 @@ import com.teamcodeflux.devcup.android.festival.model.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-@EFragment(R.layout.events_page)
+@EFragment(R.layout.events_page_layout)
 public class EventsPageFragment extends SherlockFragment {
 
     @ViewById(R.id.list_view)
