@@ -70,10 +70,10 @@ public class RestMethod {
 
     public static URI postComment(Post post, String imageFilePath) {
         MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
-        parts.add("post[username]", post.getUsername());
-        parts.add("post[body]", post.getPostBody());
+        parts.add("comment[username]", post.getUsername());
+        parts.add("comment[body]", post.getPostBody());
 
-        if (imageFilePath != null) {
+        if (imageFilePath != null && !imageFilePath.equals("") && StringUtils.isNotBlank(imageFilePath)) {
             parts.add("post[image]", new FileSystemResource(imageFilePath));
         }
 
