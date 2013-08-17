@@ -3,8 +3,8 @@ package com.teamcodeflux.devcup.android.festival.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Post implements Parcelable {
-    public static final String POST_TAG = "post_item_key";
+public class Event implements Parcelable {
+    public static final String EVENT_TAG = "event_item_key";
 
     String title;
     String description;
@@ -15,22 +15,22 @@ public class Post implements Parcelable {
     Double longitude;
     Double latitude;
 
-    private Post() {
+    private Event() {
 
     }
 
-    public static Post buildPost(String title, String description, String address, String contactNo, String imageUrl, String organizer, Double longitude, Double latitude) {
-        Post post = new Post();
-        post.setTitle(title);
-        post.setDescription(description);
-        post.setAddress(address);
-        post.setContactNo(contactNo);
-        post.setImageUrl(imageUrl);
-        post.setOrganizer(organizer);
-        post.setLongitude(longitude);
-        post.setLatitude(latitude);
+    public static Event buildEvent(String title, String description, String address, String contactNo, String imageUrl, String organizer, Double longitude, Double latitude) {
+        Event event = new Event();
+        event.setTitle(title);
+        event.setDescription(description);
+        event.setAddress(address);
+        event.setContactNo(contactNo);
+        event.setImageUrl(imageUrl);
+        event.setOrganizer(organizer);
+        event.setLongitude(longitude);
+        event.setLatitude(latitude);
 
-        return post;
+        return event;
     }
 
     @Override
