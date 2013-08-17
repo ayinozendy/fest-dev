@@ -8,11 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
 import com.teamcodeflux.devcup.android.festival.R;
+import com.teamcodeflux.devcup.android.festival.model.Event;
 import com.teamcodeflux.devcup.android.festival.model.Post;
+import com.teamcodeflux.devcup.android.festival.service.RestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +20,34 @@ import java.util.List;
 @EActivity(R.layout.event_comments_layout)
 public class EventCommentsActivity extends SherlockActivity {
 
+    @Extra
+    Event event;
+
     @ViewById(R.id.list_view)
     ListView listView;
 
+    CommentsListAdapter adapter;
+
     @AfterViews
     void afterViews() {
-        listView.setAdapter(new CommentsListAdapter(this, loadMockPosts()));
+        adapter = new CommentsListAdapter(this);
+        listView.setAdapter(adapter);
+        reloadAdapter();
+    }
+
+    @Background
+    void reloadAdapter() {
+        adapter.setItems(loadAllPosts());
+        refreshList();
+    }
+
+    @UiThread
+    void refreshList() {
+        adapter.notifyDataSetChanged();
+    }
+
+    private List<Post> loadAllPosts() {
+        return RestMethod.getPostsForEvent(event);
     }
 
     private List<Post> loadMockPosts() {
@@ -44,13 +66,15 @@ public class EventCommentsActivity extends SherlockActivity {
 
         private List<Post> listOfPosts;
 
-        public CommentsListAdapter(Context context, List<Post> posts) {
+        public CommentsListAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);
-            listOfPosts = posts;
         }
 
         @Override
         public int getCount() {
+            if (listOfPosts == null) {
+                return 0;
+            }
             return listOfPosts.size();
         }
 
@@ -75,6 +99,10 @@ public class EventCommentsActivity extends SherlockActivity {
             postBodyField.setText(listOfPosts.get(position).getPostBody());
 
             return view;
+        }
+
+        public void setItems(List<Post> posts) {
+            listOfPosts = posts;
         }
     }
 }

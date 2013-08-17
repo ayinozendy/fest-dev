@@ -42,6 +42,6 @@ public class EventDetailsPageActivity extends SherlockActivity {
 
     @Click(R.id.view_comments)
     void viewComments() {
-        EventCommentsActivity_.intent(this).start();
+        EventCommentsActivity_.intent(this).event(event).start();
     }
 }
