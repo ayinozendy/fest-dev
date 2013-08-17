@@ -1,16 +1,21 @@
 package com.teamcodeflux.devcup.android.festival.activity;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.res.StringRes;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Post;
 
@@ -23,8 +28,23 @@ public class FrontPageFragment extends SherlockFragment {
     @StringRes(R.string.lorem_ipsum)
     String loremIpsum;
 
+    @StringRes(R.string.test_image_url)
+    String testImageUrl;
+
     @ViewById(R.id.list_view)
     ListView listView;
+
+    private DisplayImageOptions options;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .build();
+    }
 
     @AfterViews
     void afterViews() {
@@ -78,6 +98,9 @@ public class FrontPageFragment extends SherlockFragment {
             eventTitleField.setText("The Quick Brown Fox Event");
 
             ImageView imageView = (ImageView) view.findViewById(R.id.image);
+            imageView.setVisibility(View.VISIBLE);
+            ImageLoader.getInstance().displayImage(testImageUrl, imageView, options);
+
             TextView postBodyField = (TextView) view.findViewById(R.id.post_body);
             postBodyField.setText(listOfPosts.get(position).getPostBody());
 
