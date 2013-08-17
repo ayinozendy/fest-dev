@@ -1,5 +1,6 @@
 package com.teamcodeflux.devcup.android.festival.activity;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.googlecode.androidannotations.annotations.ViewById;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @EFragment(R.layout.front_page_layout)
@@ -23,7 +25,7 @@ public class FrontPageFragment extends SherlockFragment {
 
     @AfterViews
     void afterViews() {
-        loadPostMockData();
+        listView.setAdapter(new PostListAdapter(getActivity(), loadPostMockData()));
     }
 
     private List<Post> loadPostMockData() {
