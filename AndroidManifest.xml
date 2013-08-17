@@ -19,5 +19,6 @@
         </activity>
         <activity android:name=".activity.EventDetailsPageActivity_"/>
         <activity android:name=".activity.EventCommentsActivity_"/>
+        <activity android:name=".activity.EventMapViewActivity_"/>
     </application>
 </manifest>
