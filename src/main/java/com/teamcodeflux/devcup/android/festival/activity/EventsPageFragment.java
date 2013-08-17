@@ -5,9 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Event;
 
@@ -17,7 +20,14 @@ import java.util.List;
 @EFragment(R.layout.events_page)
 public class EventsPageFragment extends SherlockFragment {
 
-    private void loadMockEvents() {
+    @ViewById(R.id.list_view)
+    ListView listView;
+
+    @AfterViews
+    void afterViews() {
+        listView.setAdapter(new EventListAdapter(getActivity(), loadMockEvents()));
+    }
+
     private List<Event> loadMockEvents() {
         List<Event> events = new ArrayList<Event>();
 
