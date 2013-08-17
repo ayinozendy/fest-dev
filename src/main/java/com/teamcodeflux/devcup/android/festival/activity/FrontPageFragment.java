@@ -27,7 +27,13 @@ public class FrontPageFragment extends SherlockFragment {
     }
 
     private List<Post> loadPostMockData() {
-        return null;
+        List<Post> posts = new ArrayList<Post>();
+
+        for (int i = 0; i < 10; i++) {
+            posts.add(Post.buildPost("Name " + i, "Body" + i));
+        }
+
+        return posts;
     }
 
     private class PostListAdapter extends BaseAdapter {
