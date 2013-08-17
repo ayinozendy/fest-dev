@@ -3,6 +3,7 @@ package com.teamcodeflux.devcup.android.festival.service;
 import android.util.Log;
 import com.teamcodeflux.devcup.android.festival.model.Event;
 import com.teamcodeflux.devcup.android.festival.model.Post;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -51,10 +52,17 @@ public class RestMethod {
     }
 
     public static URI postComment(Post post) {
+        return postComment(post, null);
+    }
+
+    public static URI postComment(Post post, String imageFilePath) {
         MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
         parts.add("post[username]", post.getName());
         parts.add("post[body]", post.getPostBody());
-        //parts.add("post[image]", post.getImage());
+
+        if (imageFilePath != null) {
+            parts.add("post[image]", new FileSystemResource(imageFilePath));
+        }
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
