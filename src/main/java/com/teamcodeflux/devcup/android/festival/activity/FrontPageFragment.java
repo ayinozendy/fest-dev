@@ -7,6 +7,9 @@ import com.teamcodeflux.devcup.android.festival.R;
 @EFragment(R.layout.front_page_layout)
 public class FrontPageFragment extends SherlockFragment {
 
+    @ViewById(R.id.list_view)
+    ListView listView;
+
 
     private class PostListAdapter extends BaseAdapter {
 
