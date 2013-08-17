@@ -10,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.EFragment;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
 import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -37,6 +35,8 @@ public class FrontPageFragment extends SherlockFragment {
 
     private DisplayImageOptions options;
 
+    private PostListAdapter adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,20 @@ public class FrontPageFragment extends SherlockFragment {
 
     @AfterViews
     void afterViews() {
-        listView.setAdapter(new PostListAdapter(getActivity(), loadPostMockData()));
+        adapter = new PostListAdapter(getActivity());
+        listView.setAdapter(adapter);
+        reloadAdapter();
+    }
+
+    @Background
+    void reloadAdapter() {
+        adapter.setItems(loadAllPosts());
+        refreshList();
+    }
+
+    @UiThread
+    void refreshList() {
+        adapter.notifyDataSetChanged();
     }
 
     private List<Post> loadAllPosts() {
@@ -72,13 +85,15 @@ public class FrontPageFragment extends SherlockFragment {
 
         private List<Post> listOfPosts;
 
-        public PostListAdapter(Context context, List<Post> posts) {
+        public PostListAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);
-            listOfPosts = posts;
         }
 
         @Override
         public int getCount() {
+            if (listOfPosts == null) {
+                return 0;
+            }
             return listOfPosts.size();
         }
 
@@ -110,6 +125,10 @@ public class FrontPageFragment extends SherlockFragment {
             postBodyField.setText(listOfPosts.get(position).getPostBody());
 
             return view;
+        }
+
+        public void setItems(List<Post> posts) {
+            listOfPosts = posts;
         }
     }
 }
