@@ -28,6 +28,7 @@ public class RestMethod {
 
     private static final String SERVER = "http://127.0.0.1:3000";
     private static final String API_ROOT = SERVER + "/api";
+    private static final String EVENT = API_ROOT + "/events/{0}";
     private static final String EVENTS = API_ROOT + "/festival/1/events"; //Use Festival 1 as dedicated Festival
     private static final String COMMENTS_FOR_EVENT = API_ROOT + "/events/{0}/comments";
     private static final String COMMENTS = API_ROOT + "/festival/1/comments";
@@ -39,6 +40,11 @@ public class RestMethod {
     public static List<Event> getEvents() {
         Event[] events = RestMethod.getRestTemplate().getForObject(EVENTS, Event[].class);
         return new ArrayList<Event>(asList(events));
+    }
+
+    public static Event getEvent(int id) {
+        Event event = RestMethod.getRestTemplate().getForObject(MessageFormat.format(EVENT, id), Event.class);
+        return event;
     }
 
     public static List<Post> getPostsForEvent(Event event) {
