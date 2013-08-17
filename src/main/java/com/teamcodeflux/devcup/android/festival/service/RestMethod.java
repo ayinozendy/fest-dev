@@ -47,7 +47,7 @@ public class RestMethod {
     }
 
     public static List<Post> getPostsForEvent(Event event) {
-        List<Post> posts = RestMethod.getRestTemplate().getForObject(MessageFormat.format(COMMENTS_FOR_EVENT, event.getId()), ResultSet.class).getPosts();
+        List<Post> posts = RestMethod.getRestTemplate().getForObject(MessageFormat.format(COMMENTS_FOR_EVENT, event.getId()), ResultSet.class).getComments();
         return posts;
     }
 
@@ -56,7 +56,7 @@ public class RestMethod {
         List<Post> posts = new ArrayList<Post>();
 
         try {
-            posts = RestMethod.getRestTemplate().getForObject(COMMENTS, ResultSet.class).getPosts();
+            posts = RestMethod.getRestTemplate().getForObject(COMMENTS, ResultSet.class).getComments();
         } catch (Exception e) {
             Log.e(TAG, "Failed", e);
         }

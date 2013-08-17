@@ -9,7 +9,7 @@ public class ResultSet {
 
     List<Event> events;
 
-    List<Post> posts;
+    List<Post> comments;
 
     public List<Event> getEvents() {
         return events;
@@ -19,11 +19,11 @@ public class ResultSet {
         this.events = events;
     }
 
-    public List<Post> getPosts() {
-        return posts;
+    public List<Post> getComments() {
+        return comments;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public void setComments(List<Post> posts) {
+        this.comments = posts;
     }
 }
