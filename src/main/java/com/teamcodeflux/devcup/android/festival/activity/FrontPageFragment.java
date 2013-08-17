@@ -74,6 +74,10 @@ public class FrontPageFragment extends SherlockFragment {
             TextView nameField = (TextView) view.findViewById(R.id.name);
             nameField.setText(listOfPosts.get(position).getName());
 
+            TextView eventTitleField = (TextView) view.findViewById(R.id.event_title);
+            eventTitleField.setText("The Quick Brown Fox Event");
+
+            ImageView imageView = (ImageView) view.findViewById(R.id.image);
             TextView postBodyField = (TextView) view.findViewById(R.id.post_body);
             postBodyField.setText(listOfPosts.get(position).getPostBody());
 
