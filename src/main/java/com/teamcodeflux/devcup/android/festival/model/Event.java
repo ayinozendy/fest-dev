@@ -6,14 +6,14 @@ import android.os.Parcelable;
 public class Event implements Parcelable {
     public static final String EVENT_TAG = "event_item_key";
 
-    String title;
-    String description;
-    String address;
-    String contactNo;
-    String imageUrl;
-    String organizer;
-    Double longitude;
-    Double latitude;
+    private String title;
+    private String description;
+    private String address;
+    private String contactNo;
+    private String imageUrl;
+    private String organizer;
+    private Double longitude;
+    private Double latitude;
 
     private Event() {
 
