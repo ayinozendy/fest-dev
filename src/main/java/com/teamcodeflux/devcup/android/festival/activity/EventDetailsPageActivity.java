@@ -44,4 +44,9 @@ public class EventDetailsPageActivity extends SherlockActivity {
     void viewComments() {
         EventCommentsActivity_.intent(this).event(event).start();
     }
+
+    @Click(R.id.view_on_map)
+    void viewMap() {
+        EventMapViewActivity_.intent(this).event(event).start();
+    }
 }
