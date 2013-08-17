@@ -26,7 +26,7 @@ import static java.util.Arrays.asList;
 public class RestMethod {
     private static final String TAG = RestMethod.class.getSimpleName();
 
-    private static final String SERVER = "http://127.0.0.1:3000";
+    private static final String SERVER = "https://calm-wildwood-2164.herokuapp.com";
     private static final String API_ROOT = SERVER + "/api";
     private static final String EVENT = API_ROOT + "/events/{0}";
     private static final String EVENTS = API_ROOT + "/festival/1/events"; //Use Festival 1 as dedicated Festival
