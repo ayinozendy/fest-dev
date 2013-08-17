@@ -1,5 +1,6 @@
 package com.teamcodeflux.devcup.android.festival.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -8,6 +9,8 @@ import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.res.StringArrayRes;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.viewpagerindicator.TitlePageIndicator;
 
@@ -22,6 +25,19 @@ public class MainIndexActivity extends SherlockFragmentActivity {
 
     @ViewById(R.id.indicator)
     TitlePageIndicator titlePageIndicator;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initImageLoader();
+    }
+
+    private void initImageLoader() {
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration
+                .Builder(getApplicationContext())
+                .build();
+        ImageLoader.getInstance().init(config);
+    }
 
     @AfterViews
     void afterViews() {
