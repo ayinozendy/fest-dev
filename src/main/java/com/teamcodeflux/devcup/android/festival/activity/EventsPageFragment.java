@@ -11,10 +11,26 @@ import com.googlecode.androidannotations.annotations.EFragment;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Event;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @EFragment(R.layout.events_page)
 public class EventsPageFragment extends SherlockFragment {
+
+    private void loadMockEvents() {
+        List<Event> events = new ArrayList<Event>();
+
+        for (int i = 0; i < 10; i++) {
+            events.add(Event.buildEvent("Title" + 1,
+                    "Description" + 1,
+                    "" + 1,
+                    "" + 1,
+                    "" + 1,
+                    "" + 1,
+                    0d,
+                    0d));
+        }
+    }
 
     private class EventListAdapter extends BaseAdapter {
 
