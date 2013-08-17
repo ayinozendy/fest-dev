@@ -8,12 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.EFragment;
-import com.googlecode.androidannotations.annotations.ItemClick;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Event;
+import com.teamcodeflux.devcup.android.festival.service.RestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +22,28 @@ public class EventsPageFragment extends SherlockFragment {
     @ViewById(R.id.list_view)
     ListView listView;
 
+    EventListAdapter adapter;
+
     @AfterViews
     void afterViews() {
-        listView.setAdapter(new EventListAdapter(getActivity(), loadMockEvents()));
+        adapter = new EventListAdapter(getActivity());
+        listView.setAdapter(adapter);
+        reloadAdapter();
+    }
+
+    @Background
+    void reloadAdapter() {
+        adapter.setItems(loadEvents());
+        refreshList();
+    }
+
+    private List<Event> loadEvents() {
+        return RestMethod.getEvents();
+    }
+
+    @UiThread
+    void refreshList() {
+        adapter.notifyDataSetChanged();
     }
 
     private List<Event> loadMockEvents() {
@@ -54,13 +71,15 @@ public class EventsPageFragment extends SherlockFragment {
 
         private List<Event> listOfEvents;
 
-        public EventListAdapter(Context context, List<Event> events) {
+        public EventListAdapter(Context context) {
             layoutInflater = LayoutInflater.from(context);
-            listOfEvents = events;
         }
 
         @Override
         public int getCount() {
+            if (listOfEvents == null) {
+                return 0;
+            }
             return listOfEvents.size();
         }
 
@@ -85,6 +104,10 @@ public class EventsPageFragment extends SherlockFragment {
             descriptionField.setText(listOfEvents.get(position).getDescription());
 
             return view;
+        }
+
+        public void setItems(List<Event> events) {
+            listOfEvents = events;
         }
     }
 }
