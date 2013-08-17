@@ -4,6 +4,7 @@ import android.util.Log;
 import com.teamcodeflux.devcup.android.festival.model.Event;
 import com.teamcodeflux.devcup.android.festival.model.Post;
 import com.teamcodeflux.devcup.android.festival.model.ResultSet;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -37,17 +38,37 @@ public class RestMethod {
     private static RestTemplate formRestTemplate;
 
     public static List<Event> getEvents() {
-        List<Event> events = RestMethod.getRestTemplate().getForObject(EVENTS, ResultSet.class).getEvents();
+        List<Event> events = new ArrayList<Event>();
+
+        try {
+            events = RestMethod.getRestTemplate().getForObject(EVENTS, ResultSet.class).getEvents();
+        } catch (Exception e) {
+            Log.e(TAG, "Error getting events from server", e);
+        }
+
         return events;
     }
 
     public static Event getEvent(int id) {
-        Event event = RestMethod.getRestTemplate().getForObject(MessageFormat.format(EVENT, id), Event.class);
+        Event event = null;
+
+        try {
+            event = RestMethod.getRestTemplate().getForObject(MessageFormat.format(EVENT, id), Event.class);
+        } catch (Exception e) {
+            Log.e(TAG, "Error getting event from server", e);
+        }
+
         return event;
     }
 
     public static List<Post> getPostsForEvent(Event event) {
-        List<Post> posts = RestMethod.getRestTemplate().getForObject(MessageFormat.format(COMMENTS_FOR_EVENT, event.getId()), ResultSet.class).getComments();
+        List<Post> posts = new ArrayList<Post>();
+
+        try {
+            posts = RestMethod.getRestTemplate().getForObject(MessageFormat.format(COMMENTS_FOR_EVENT, event.getId()), ResultSet.class).getComments();
+        } catch (Exception e) {
+            Log.e(TAG, "Error getting posts for event from server", e);
+        }
         return posts;
     }
 
@@ -58,7 +79,7 @@ public class RestMethod {
         try {
             posts = RestMethod.getRestTemplate().getForObject(COMMENTS, ResultSet.class).getComments();
         } catch (Exception e) {
-            Log.e(TAG, "Failed", e);
+            Log.e(TAG, "Error getting posts from server", e);
         }
 
         return posts;
