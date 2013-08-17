@@ -32,7 +32,7 @@ public class EventCommentsActivity extends SherlockActivity {
         List<Post> posts = new ArrayList<Post>();
 
         for (int i = 0; i < 10; i++) {
-            posts.add(Post.buildPost("Comment Name" + i, "Comment Body" + 1));
+            posts.add(Post.buildPost(i, "Comment Name" + i, "image url", "Comment Body" + 1, 1));
         }
 
         return posts;
@@ -69,7 +69,7 @@ public class EventCommentsActivity extends SherlockActivity {
             View view = this.layoutInflater.inflate(R.layout.event_comments_item_layout, parent, false);
 
             TextView nameField = (TextView) view.findViewById(R.id.name);
-            nameField.setText(listOfPosts.get(position).getName());
+            nameField.setText(listOfPosts.get(position).getUsername());
 
             TextView postBodyField = (TextView) view.findViewById(R.id.post_body);
             postBodyField.setText(listOfPosts.get(position).getPostBody());

@@ -63,7 +63,7 @@ public class RestMethod {
 
     public static URI postComment(Post post, String imageFilePath) {
         MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
-        parts.add("post[username]", post.getName());
+        parts.add("post[username]", post.getUsername());
         parts.add("post[body]", post.getPostBody());
 
         if (imageFilePath != null) {

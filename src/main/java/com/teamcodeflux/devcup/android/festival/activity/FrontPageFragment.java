@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Post;
+import com.teamcodeflux.devcup.android.festival.service.RestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +52,15 @@ public class FrontPageFragment extends SherlockFragment {
         listView.setAdapter(new PostListAdapter(getActivity(), loadPostMockData()));
     }
 
+    private List<Post> loadAllPosts() {
+        return RestMethod.getPosts();
+    }
+
     private List<Post> loadPostMockData() {
         List<Post> posts = new ArrayList<Post>();
 
         for (int i = 0; i < 10; i++) {
-            posts.add(Post.buildPost("Name " + i, i + " " + loremIpsum));
+            posts.add(Post.buildPost(i, "Name " + i, "image url", i + " " + loremIpsum, 1));
         }
 
         return posts;
@@ -92,7 +97,7 @@ public class FrontPageFragment extends SherlockFragment {
             View view = this.layoutInflater.inflate(R.layout.front_page_item_layout, parent, false);
 
             TextView nameField = (TextView) view.findViewById(R.id.name);
-            nameField.setText(listOfPosts.get(position).getName());
+            nameField.setText(listOfPosts.get(position).getUsername());
 
             TextView eventTitleField = (TextView) view.findViewById(R.id.event_title);
             eventTitleField.setText("The Quick Brown Fox Event");
