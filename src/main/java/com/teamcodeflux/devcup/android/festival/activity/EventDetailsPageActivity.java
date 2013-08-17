@@ -40,6 +40,11 @@ public class EventDetailsPageActivity extends SherlockActivity {
         latitudeView.setText(event.getLatitude().toString());
     }
 
+    @Click(R.id.add_comment)
+    void addComment() {
+        EventCommentPostingActivity_.intent(this).event(event).start();
+    }
+
     @Click(R.id.view_comments)
     void viewComments() {
         EventCommentsActivity_.intent(this).event(event).start();
