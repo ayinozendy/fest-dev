@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MainIndexActivity</string>
+    <string-array name="tab_list">
+        <item>Front Page</item>
+    </string-array>
 </resources>
