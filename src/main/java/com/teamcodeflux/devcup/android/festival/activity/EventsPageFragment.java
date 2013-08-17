@@ -33,7 +33,7 @@ public class EventsPageFragment extends SherlockFragment {
         List<Event> events = new ArrayList<Event>();
 
         for (int i = 0; i < 10; i++) {
-            events.add(Event.buildEvent("Title" + i,
+            events.add(Event.buildEvent(i, "Title" + i,
                     "Description" + i,
                     "" + i,
                     "" + i,
