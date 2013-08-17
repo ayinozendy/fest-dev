@@ -5,12 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.event_comments_layout)
@@ -18,6 +22,11 @@ public class EventCommentsActivity extends SherlockActivity {
 
     @ViewById(R.id.list_view)
     ListView listView;
+
+    @AfterViews
+    void afterViews() {
+        listView.setAdapter(new CommentsListAdapter(this, loadMockPosts()));
+    }
 
     private List<Post> loadMockPosts() {
         List<Post> posts = new ArrayList<Post>();
