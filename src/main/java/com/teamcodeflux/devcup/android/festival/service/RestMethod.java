@@ -1,14 +1,21 @@
 package com.teamcodeflux.devcup.android.festival.service;
 
+import android.util.Log;
 import com.teamcodeflux.devcup.android.festival.model.Event;
 import com.teamcodeflux.devcup.android.festival.model.Post;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +29,7 @@ public class RestMethod {
     private static final String API_ROOT = SERVER + "/api";
     private static final String EVENTS = API_ROOT + "/festival/1/events"; //Use Festival 1 as dedicated Festival
     private static final String COMMENTS_FOR_EVENT = API_ROOT + "/events/{0}/comments";
-    private static final String POSTS = API_ROOT + "/festival/1/comments";
+    private static final String COMMENTS = API_ROOT + "/festival/1/comments";
     private static final String POST_COMMENT = API_ROOT + "/festival/1/comments";
 
     private static RestTemplate restTemplate;
@@ -39,7 +46,7 @@ public class RestMethod {
     }
 
     public static List<Post> getPosts() {
-        Post[] posts = RestMethod.getRestTemplate().getForObject(POSTS, Post[].class);
+        Post[] posts = RestMethod.getRestTemplate().getForObject(COMMENTS, Post[].class);
         return new ArrayList<Post>(asList(posts));
     }
 
