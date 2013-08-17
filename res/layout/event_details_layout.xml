@@ -27,4 +27,9 @@
               android:layout_height="wrap_content"
               android:text="VIEW COMMENTS"
               android:textSize="48sp"/>
+    <TextView android:id="@+id/view_on_map"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="VIEW ON MAP"
+              android:textSize="48sp"/>
 </LinearLayout>
