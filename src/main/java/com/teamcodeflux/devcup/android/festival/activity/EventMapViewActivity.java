@@ -5,6 +5,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
@@ -30,6 +31,9 @@ public class EventMapViewActivity extends SherlockFragmentActivity {
         googleMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
         googleMap.setMyLocationEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(event.getLatitude(), event.getLongitude())));
+
+        LatLng eventCoordinates = new LatLng(event.getLatitude(), event.getLongitude());
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(eventCoordinates));
+        googleMap.addMarker(new MarkerOptions().position(eventCoordinates).title(event.getTitle()));
     }
 }
