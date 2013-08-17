@@ -8,6 +8,7 @@ public class Post implements Parcelable {
 
     private String name;
     private String postBody;
+    private String imageUrl;
 
     private Post() {
 
@@ -30,11 +31,13 @@ public class Post implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(postBody);
+        dest.writeString(imageUrl);
     }
 
     private void readFromParcel(final Parcel source) {
         name = source.readString();
         postBody = source.readString();
+        imageUrl = source.readString();
     }
 
     public String getName() {
@@ -52,4 +55,13 @@ public class Post implements Parcelable {
     public void setPostBody(String postBody) {
         this.postBody = postBody;
     }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 }
