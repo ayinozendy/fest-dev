@@ -16,6 +16,9 @@ import java.util.List;
 @EActivity(R.layout.event_comments_layout)
 public class EventCommentsActivity extends SherlockActivity {
 
+    @ViewById(R.id.list_view)
+    ListView listView;
+
     private List<Post> loadMockPosts() {
         List<Post> posts = new ArrayList<Post>();
 
