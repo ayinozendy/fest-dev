@@ -14,6 +14,24 @@ public class Post implements Parcelable {
 
     }
 
+    public static final Parcelable.Creator<Post> CREATOR
+            = new Parcelable.Creator<Post>() {
+
+        @Override
+        public Post createFromParcel(Parcel source) {
+            return new Post(source);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
+
+    public Post(final Parcel source) {
+        readFromParcel(source);
+    }
+
     public static Post buildPost(String name, String postBody) {
         Post post = new Post();
         post.setName(name);
