@@ -18,6 +18,7 @@ import java.util.List;
 public class EventsPageFragment extends SherlockFragment {
 
     private void loadMockEvents() {
+    private List<Event> loadMockEvents() {
         List<Event> events = new ArrayList<Event>();
 
         for (int i = 0; i < 10; i++) {
@@ -30,6 +31,8 @@ public class EventsPageFragment extends SherlockFragment {
                     0d,
                     0d));
         }
+
+        return events;
     }
 
     private class EventListAdapter extends BaseAdapter {
