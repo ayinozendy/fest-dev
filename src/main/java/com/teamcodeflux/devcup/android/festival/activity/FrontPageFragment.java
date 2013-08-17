@@ -42,7 +42,8 @@ public class FrontPageFragment extends SherlockFragment {
 
         private List<Post> listOfPosts;
 
-        public PostListAdapter(List<Post> posts) {
+        public PostListAdapter(Context context, List<Post> posts) {
+            layoutInflater = LayoutInflater.from(context);
             listOfPosts = posts;
         }
 
