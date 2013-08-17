@@ -20,6 +20,9 @@ import java.util.List;
 @EFragment(R.layout.front_page_layout)
 public class FrontPageFragment extends SherlockFragment {
 
+    @StringRes(R.string.lorem_ipsum)
+    String loremIpsum;
+
     @ViewById(R.id.list_view)
     ListView listView;
 
@@ -32,7 +35,7 @@ public class FrontPageFragment extends SherlockFragment {
         List<Post> posts = new ArrayList<Post>();
 
         for (int i = 0; i < 10; i++) {
-            posts.add(Post.buildPost("Name " + i, "Body" + i));
+            posts.add(Post.buildPost("Name " + i, i + " " + loremIpsum));
         }
 
         return posts;
