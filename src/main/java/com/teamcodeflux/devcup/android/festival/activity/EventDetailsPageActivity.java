@@ -1,5 +1,6 @@
 package com.teamcodeflux.devcup.android.festival.activity;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.googlecode.androidannotations.annotations.*;
@@ -12,9 +13,6 @@ public class EventDetailsPageActivity extends SherlockActivity {
     @Extra
     Event event;
 
-    @ViewById(R.id.image_url)
-    TextView imageUrlView;
-
     @ViewById(R.id.title)
     TextView titleView;
 
@@ -24,20 +22,11 @@ public class EventDetailsPageActivity extends SherlockActivity {
     @ViewById(R.id.location)
     TextView addressView;
 
-    @ViewById(R.id.longitude)
-    TextView longitudeView;
-
-    @ViewById(R.id.latitude)
-    TextView latitudeView;
-
     @AfterViews
     void afterViews() {
         titleView.setText(event.getTitle());
-        imageUrlView.setText(event.getImageUrl());
         descriptionView.setText(event.getDescription());
         addressView.setText(event.getLocation());
-        longitudeView.setText(event.getLongitude().toString());
-        latitudeView.setText(event.getLatitude().toString());
     }
 
     @Click(R.id.add_comment)
