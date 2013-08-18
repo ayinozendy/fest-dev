@@ -10,25 +10,20 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.googlecode.androidannotations.annotations.*;
-import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Post;
 import com.teamcodeflux.devcup.android.festival.service.RestMethod;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @EFragment(R.layout.front_page_layout)
 public class FrontPageFragment extends SherlockFragment {
-
-    @StringRes(R.string.lorem_ipsum)
-    String loremIpsum;
-
-    @StringRes(R.string.test_image_url)
-    String testImageUrl;
 
     @ViewById(R.id.list_view)
     ListView listView;
@@ -37,14 +32,23 @@ public class FrontPageFragment extends SherlockFragment {
 
     private PostListAdapter adapter;
 
+    MenuItem submitMenuItem;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .build();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.refresh, menu);
+        submitMenuItem = menu.getItem(0);
     }
 
     @AfterViews
@@ -69,14 +73,10 @@ public class FrontPageFragment extends SherlockFragment {
         return RestMethod.getPosts();
     }
 
-    private List<Post> loadPostMockData() {
-        List<Post> posts = new ArrayList<Post>();
-
-        for (int i = 0; i < 10; i++) {
-            posts.add(Post.buildPost(i, "Name " + i, "image url", i + " " + loremIpsum, 1));
-        }
-
-        return posts;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        reloadAdapter();
+        return true;
     }
 
     private class PostListAdapter extends BaseAdapter {
@@ -115,11 +115,11 @@ public class FrontPageFragment extends SherlockFragment {
             nameField.setText(listOfPosts.get(position).getUsername());
 
             TextView eventTitleField = (TextView) view.findViewById(R.id.event_title);
-            eventTitleField.setText("The Quick Brown Fox Event");
+            eventTitleField.setText(listOfPosts.get(position).getEventTitle());
 
             ImageView imageView = (ImageView) view.findViewById(R.id.image);
             imageView.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().displayImage(testImageUrl, imageView, options);
+            ImageLoader.getInstance().displayImage(listOfPosts.get(position).getImageUrl(), imageView, options);
 
             TextView postBodyField = (TextView) view.findViewById(R.id.post_body);
             postBodyField.setText(listOfPosts.get(position).getPostBody());
