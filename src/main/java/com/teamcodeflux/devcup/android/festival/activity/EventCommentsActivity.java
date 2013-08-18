@@ -1,14 +1,18 @@
 package com.teamcodeflux.devcup.android.festival.activity;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.googlecode.androidannotations.annotations.*;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Event;
 import com.teamcodeflux.devcup.android.festival.model.Post;
@@ -27,6 +31,18 @@ public class EventCommentsActivity extends SherlockActivity {
     ListView listView;
 
     CommentsListAdapter adapter;
+
+    private DisplayImageOptions options;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .build();
+    }
 
     @AfterViews
     void afterViews() {
@@ -94,6 +110,10 @@ public class EventCommentsActivity extends SherlockActivity {
 
             TextView nameField = (TextView) view.findViewById(R.id.name);
             nameField.setText(listOfPosts.get(position).getUsername());
+
+            ImageView imageView = (ImageView) view.findViewById(R.id.image);
+            imageView.setVisibility(View.VISIBLE);
+            ImageLoader.getInstance().displayImage(listOfPosts.get(position).getImageUrl(), imageView, options);
 
             TextView postBodyField = (TextView) view.findViewById(R.id.post_body);
             postBodyField.setText(listOfPosts.get(position).getPostBody());
