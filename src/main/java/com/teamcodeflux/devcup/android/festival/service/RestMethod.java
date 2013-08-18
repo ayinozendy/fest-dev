@@ -4,6 +4,7 @@ import android.util.Log;
 import com.teamcodeflux.devcup.android.festival.model.Event;
 import com.teamcodeflux.devcup.android.festival.model.Post;
 import com.teamcodeflux.devcup.android.festival.model.ResultSet;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,23 +32,43 @@ public class RestMethod {
     private static final String EVENTS = API_ROOT + "/festivals/1/events"; //Use Festival 1 as dedicated Festival
     private static final String COMMENTS_FOR_EVENT = API_ROOT + "/events/{0}/comments";
     private static final String COMMENTS = API_ROOT + "/festivals/1/comments";
-    private static final String POST_COMMENT = API_ROOT + "/festivals/1/comments";
+    private static final String POST_COMMENT = API_ROOT + "/events/{0}/comments";
 
     private static RestTemplate restTemplate;
     private static RestTemplate formRestTemplate;
 
     public static List<Event> getEvents() {
-        List<Event> events = RestMethod.getRestTemplate().getForObject(EVENTS, ResultSet.class).getEvents();
+        List<Event> events = new ArrayList<Event>();
+
+        try {
+            events = RestMethod.getRestTemplate().getForObject(EVENTS, ResultSet.class).getEvents();
+        } catch (Exception e) {
+            Log.e(TAG, "Error getting events from server", e);
+        }
+
         return events;
     }
 
     public static Event getEvent(int id) {
-        Event event = RestMethod.getRestTemplate().getForObject(MessageFormat.format(EVENT, id), Event.class);
+        Event event = null;
+
+        try {
+            event = RestMethod.getRestTemplate().getForObject(MessageFormat.format(EVENT, id), Event.class);
+        } catch (Exception e) {
+            Log.e(TAG, "Error getting event from server", e);
+        }
+
         return event;
     }
 
     public static List<Post> getPostsForEvent(Event event) {
-        List<Post> posts = RestMethod.getRestTemplate().getForObject(MessageFormat.format(COMMENTS_FOR_EVENT, event.getId()), ResultSet.class).getComments();
+        List<Post> posts = new ArrayList<Post>();
+
+        try {
+            posts = RestMethod.getRestTemplate().getForObject(MessageFormat.format(COMMENTS_FOR_EVENT, event.getId()), ResultSet.class).getComments();
+        } catch (Exception e) {
+            Log.e(TAG, "Error getting posts for event from server", e);
+        }
         return posts;
     }
 
@@ -58,22 +79,22 @@ public class RestMethod {
         try {
             posts = RestMethod.getRestTemplate().getForObject(COMMENTS, ResultSet.class).getComments();
         } catch (Exception e) {
-            Log.e(TAG, "Failed", e);
+            Log.e(TAG, "Error getting posts from server", e);
         }
 
         return posts;
     }
 
-    public static URI postComment(Post post) {
+    public static Post postComment(Post post) {
         return postComment(post, null);
     }
 
-    public static URI postComment(Post post, String imageFilePath) {
+    public static Post postComment(Post post, String imageFilePath) {
         MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
-        parts.add("post[username]", post.getUsername());
-        parts.add("post[body]", post.getPostBody());
+        parts.add("comment[username]", post.getUsername());
+        parts.add("comment[body]", post.getPostBody());
 
-        if (imageFilePath != null) {
+        if (imageFilePath != null && !imageFilePath.equals("") && StringUtils.isNotBlank(imageFilePath)) {
             parts.add("post[image]", new FileSystemResource(imageFilePath));
         }
 
@@ -81,10 +102,10 @@ public class RestMethod {
         requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
         HttpEntity<?> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(parts, requestHeaders);
 
-        URI result = null;
+        Post result = null;
 
         try {
-            result = RestMethod.getFormRestTemplate().postForLocation(POST_COMMENT, requestEntity);
+            result = RestMethod.getFormRestTemplate().postForObject(MessageFormat.format(POST_COMMENT, post.getEventId()), requestEntity, Post.class);
         } catch (Exception e) {
             Log.e(TAG, "Error posting to server", e);
         }
