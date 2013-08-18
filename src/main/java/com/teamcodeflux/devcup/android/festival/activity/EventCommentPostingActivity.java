@@ -1,6 +1,7 @@
 package com.teamcodeflux.devcup.android.festival.activity;
 
 import android.widget.EditText;
+import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.googlecode.androidannotations.annotations.*;
 import com.teamcodeflux.devcup.android.festival.R;
@@ -23,19 +24,49 @@ public class EventCommentPostingActivity extends SherlockActivity {
 
     @Click(R.id.post)
     void post() {
-        validateFields();
+        if (!validateFields()) {
+            Toast.makeText(this, "Please don't leave blanks", 3000).show();
+            return;
+        }
+
         postComment();
     }
 
-    private void validateFields() {
-        if (StringUtils.isBlank(usernameField.getText()) || StringUtils.isBlank(commentField.getText())) {
-            //Alert!
+    private boolean validateFields() {
+        boolean isValid = true;
+
+        if (StringUtils.isBlank(usernameField.getText())) {
+            usernameField.setError("Must not be blank");
+            isValid = false;
+        } else if (StringUtils.isBlank(commentField.getText())) {
+            commentField.setError("Must not be blank");
+            isValid = false;
         }
+
+        return isValid;
     }
 
     @Background
     void postComment() {
         Post post = Post.buildPost(0, usernameField.getText().toString(), "", commentField.getText().toString(), event.getId());
-        RestMethod.postComment(post);
+        Post resultPost = RestMethod.postComment(post);
+
+        if (resultPost == null) {
+            showFailToast();
+            return;
+        }
+
+        showSuccessToast();
+    }
+
+    @UiThread
+    void showSuccessToast() {
+        Toast.makeText(this, "Comment Post Successful", 3000).show();
+        finish();
+    }
+
+    @UiThread
+    void showFailToast() {
+        Toast.makeText(this, "Comment Posting Unsuccessful", 3000).show();
     }
 }
