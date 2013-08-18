@@ -21,6 +21,9 @@ public class Post implements Parcelable {
     @JsonProperty("event_id")
     private int eventId;
 
+    @JsonProperty("event_title")
+    private String eventTitle;
+
     private Post() {
 
     }
@@ -66,6 +69,7 @@ public class Post implements Parcelable {
         dest.writeString(imageUrl);
         dest.writeString(postBody);
         dest.writeInt(eventId);
+        dest.writeString(eventTitle);
     }
 
     private void readFromParcel(final Parcel source) {
@@ -74,6 +78,7 @@ public class Post implements Parcelable {
         imageUrl = source.readString();
         postBody = source.readString();
         eventId = source.readInt();
+        eventTitle = source.readString();
     }
 
     public int getId() {
@@ -114,5 +119,13 @@ public class Post implements Parcelable {
 
     public void setEventId(int eventId) {
         this.eventId = eventId;
+    }
+
+    public String getEventTitle() {
+        return eventTitle;
+    }
+
+    public void setEventTitle(String eventTitle) {
+        this.eventTitle = eventTitle;
     }
 }
