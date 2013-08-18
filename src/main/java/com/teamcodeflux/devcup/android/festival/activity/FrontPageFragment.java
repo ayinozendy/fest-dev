@@ -11,14 +11,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.googlecode.androidannotations.annotations.*;
-import com.googlecode.androidannotations.annotations.res.StringRes;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Post;
 import com.teamcodeflux.devcup.android.festival.service.RestMethod;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @EFragment(R.layout.front_page_layout)
@@ -103,7 +101,7 @@ public class FrontPageFragment extends SherlockFragment {
 
             ImageView imageView = (ImageView) view.findViewById(R.id.image);
             imageView.setVisibility(View.VISIBLE);
-            ImageLoader.getInstance().displayImage(testImageUrl, imageView, options);
+            ImageLoader.getInstance().displayImage(listOfPosts.get(position).getImageUrl(), imageView, options);
 
             TextView postBodyField = (TextView) view.findViewById(R.id.post_body);
             postBodyField.setText(listOfPosts.get(position).getPostBody());
