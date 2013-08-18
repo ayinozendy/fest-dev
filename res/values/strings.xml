@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">MainIndexActivity</string>
     <string-array name="tab_list">
-        <item>Front Page</item>
-        <item>Event page</item>
+        <item>Latest Buzz</item>
+        <item>The Events List</item>
     </string-array>
     <string name="lorem_ipsum">
         "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
