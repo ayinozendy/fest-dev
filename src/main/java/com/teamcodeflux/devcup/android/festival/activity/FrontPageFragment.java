@@ -97,7 +97,7 @@ public class FrontPageFragment extends SherlockFragment {
             nameField.setText(listOfPosts.get(position).getUsername());
 
             TextView eventTitleField = (TextView) view.findViewById(R.id.event_title);
-            eventTitleField.setText(listOfPosts.get(position).getPostBody());
+            eventTitleField.setText(listOfPosts.get(position).getEventTitle());
 
             ImageView imageView = (ImageView) view.findViewById(R.id.image);
             imageView.setVisibility(View.VISIBLE);
