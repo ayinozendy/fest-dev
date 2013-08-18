@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MainIndexActivity</string>
+    <string name="app_name">FestDev</string>
     <string-array name="tab_list">
         <item>Latest Buzz</item>
         <item>The Events List</item>
