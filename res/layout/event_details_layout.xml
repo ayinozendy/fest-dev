@@ -5,9 +5,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView android:id="@+id/title"
+              android:textSize="24sp"
+              android:textStyle="bold"
+              android:padding="8dp"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"/>
     <ScrollView android:layout_width="fill_parent"
+                android:fadingEdge="none"
                 android:layout_height="0dp"
                 android:layout_weight="1">
         <LinearLayout android:layout_width="fill_parent"
@@ -25,10 +29,11 @@
                           android:layout_height="wrap_content"
                           android:orientation="vertical"
                           android:padding="8dp"
+                          android:layout_marginBottom="8dp"
                           android:background="#FFFFFF">
                 <TextView android:text="Description"
-                          android:textSize="24sp"
-                          android:textColor="#888888"
+                          android:textSize="18sp"
+                          android:textColor="#555555"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"/>
                 <View android:layout_width="fill_parent"
@@ -42,8 +47,8 @@
                           android:layout_marginBottom="8dp"/>
 
                 <TextView android:text="Location"
-                          android:textSize="24sp"
-                          android:textColor="#888888"
+                          android:textSize="18sp"
+                          android:textColor="#555555"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"/>
                 <View android:layout_width="fill_parent"
@@ -58,12 +63,14 @@
             </LinearLayout>
 
             <LinearLayout android:id="@+id/view_on_map"
+                          android:layout_marginBottom="8dp"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:background="@drawable/button">
                 <TextView android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:gravity="center_horizontal"
+                          android:textColor="#555555"
                           android:minHeight="32dp"
                           android:text="VIEW ON MAP"
                           android:background="#FFFFFF"
@@ -71,12 +78,14 @@
             </LinearLayout>
 
             <LinearLayout android:id="@+id/add_comment"
+                          android:layout_marginBottom="8dp"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:background="@drawable/button">
                 <TextView android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:gravity="center_horizontal"
+                          android:textColor="#555555"
                           android:minHeight="32dp"
                           android:text="ADD COMMENT"
                           android:background="#FFFFFF"
@@ -84,14 +93,15 @@
             </LinearLayout>
 
             <LinearLayout android:id="@+id/view_comments"
+                          android:minHeight="32dp"
                           android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:background="@drawable/button">
                 <TextView android:layout_width="fill_parent"
                           android:layout_height="wrap_content"
                           android:gravity="center_horizontal"
-                          android:text="VIEW  MORE COMMENTS"
-                          android:minHeight="32dp"
+                          android:textColor="#555555"
+                          android:text="VIEW COMMENTS"
                           android:background="#FFFFFF"
                           android:textSize="32sp"/>
             </LinearLayout>
