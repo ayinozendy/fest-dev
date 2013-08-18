@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.googlecode.androidannotations.annotations.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -29,14 +32,23 @@ public class FrontPageFragment extends SherlockFragment {
 
     private PostListAdapter adapter;
 
+    MenuItem submitMenuItem;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .build();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.refresh, menu);
+        submitMenuItem = menu.getItem(0);
     }
 
     @AfterViews
@@ -59,6 +71,12 @@ public class FrontPageFragment extends SherlockFragment {
 
     private List<Post> loadAllPosts() {
         return RestMethod.getPosts();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        reloadAdapter();
+        return true;
     }
 
     private class PostListAdapter extends BaseAdapter {
