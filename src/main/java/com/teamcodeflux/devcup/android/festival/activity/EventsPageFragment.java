@@ -1,14 +1,18 @@
 package com.teamcodeflux.devcup.android.festival.activity;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.googlecode.androidannotations.annotations.*;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teamcodeflux.devcup.android.festival.R;
 import com.teamcodeflux.devcup.android.festival.model.Event;
 import com.teamcodeflux.devcup.android.festival.service.RestMethod;
@@ -22,7 +26,19 @@ public class EventsPageFragment extends SherlockFragment {
     @ViewById(R.id.list_view)
     ListView listView;
 
-    EventListAdapter adapter;
+    private EventListAdapter adapter;
+
+    private DisplayImageOptions options;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .build();
+    }
 
     @AfterViews
     void afterViews() {
@@ -99,6 +115,9 @@ public class EventsPageFragment extends SherlockFragment {
 
             TextView titleField = (TextView) view.findViewById(R.id.title);
             titleField.setText(listOfEvents.get(position).getTitle());
+
+            ImageView imageView = (ImageView) view.findViewById(R.id.image);
+            ImageLoader.getInstance().displayImage(listOfEvents.get(position).getImageUrl(), imageView, options);
 
             TextView descriptionField = (TextView) view.findViewById(R.id.description);
             descriptionField.setText(listOfEvents.get(position).getDescription());
