@@ -24,12 +24,6 @@ import java.util.List;
 @EFragment(R.layout.front_page_layout)
 public class FrontPageFragment extends SherlockFragment {
 
-    @StringRes(R.string.lorem_ipsum)
-    String loremIpsum;
-
-    @StringRes(R.string.test_image_url)
-    String testImageUrl;
-
     @ViewById(R.id.list_view)
     ListView listView;
 
@@ -67,16 +61,6 @@ public class FrontPageFragment extends SherlockFragment {
 
     private List<Post> loadAllPosts() {
         return RestMethod.getPosts();
-    }
-
-    private List<Post> loadPostMockData() {
-        List<Post> posts = new ArrayList<Post>();
-
-        for (int i = 0; i < 10; i++) {
-            posts.add(Post.buildPost(i, "Name " + i, "image url", i + " " + loremIpsum, 1));
-        }
-
-        return posts;
     }
 
     private class PostListAdapter extends BaseAdapter {
